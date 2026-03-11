@@ -2,7 +2,8 @@ CREATE TABLE "songs" (
   "id" uuid PRIMARY KEY,
   "title" varchar,
   "artist_id" uuid,
-  "year" int
+  "year" int,
+  "meme_chanson" boolean
 );
 
 CREATE TABLE "artists" (
@@ -22,6 +23,6 @@ CREATE TABLE "songs_themes" (
 
 ALTER TABLE "songs" ADD FOREIGN KEY ("artist_id") REFERENCES "artists" ("id");
 
-ALTER TABLE "songs" ADD FOREIGN KEY ("id") REFERENCES "songs_themes" ("song_id");
+ALTER TABLE "songs_themes" ADD FOREIGN KEY ("song_id") REFERENCES "songs" ("id");
 
-ALTER TABLE "themes" ADD FOREIGN KEY ("id") REFERENCES "songs_themes" ("theme_id");
+ALTER TABLE "songs_themes" ADD FOREIGN KEY ("theme_id") REFERENCES "themes" ("id");

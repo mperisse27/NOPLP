@@ -6,6 +6,6 @@ export type LrclibSong = {
   albumName: string;
   duration: number;
   instrumental: boolean;
-  plainLyrics: string[];
-  syncedLyrics: string[];
+  plainLyrics: string;
+  syncedLyrics: string;
 };

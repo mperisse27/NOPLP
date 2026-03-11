@@ -1,4 +1,6 @@
-import type { Category } from "../types/gameTypes";
+import axios from "axios";
+import type { Game } from "../types/gameTypes";
+import type { LrclibSong } from "../types/LrclibSong";
 
 class ApiService {
   private constructor() { }
@@ -6,7 +8,7 @@ class ApiService {
   static #instance: ApiService;
 
   lrclibURL = 'https://lrclib.net/api/get';
-  myURL = 'http://localhost:8000';
+  myURL = 'https://localhost:7089';
 
   public static get instance(): ApiService {
     if (!ApiService.#instance) {
@@ -16,20 +18,20 @@ class ApiService {
     return ApiService.#instance;
   }
 
-  async getLyrics(artist: string, title: string) {
-    const response = await fetch(`${this.lrclibURL}?artist_name=${artist}&track_name=${title}`);
-    if (!response.ok) {
+  async getLyrics(artist: string, title: string): Promise<LrclibSong> {
+    const response = await axios.get(`${this.lrclibURL}?artist_name=${artist}&track_name=${title}`);
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
-    return response.json();
+    return response.data;
   }
 
-  async getCategories(): Promise<Category[]> {
-    const response = await fetch(`${this.myURL}/randomCategories`);
-    if (!response.ok) {
+  async getNewGame(): Promise<Game> {
+    const response = await axios.get(`${this.myURL}/game/newgame`);
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
-    return response.json();
+    return response.data;
   }
 }
 
