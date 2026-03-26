@@ -12,6 +12,7 @@ const Game = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [lyricsSong, setLyricsSong] = useState<Song | null>(null);
   const [timedLyrics, setTimedLyrics] = useState<{ time: number; lyric: string }[]>([]);
+  const [doneCategories, setDoneCategories] = useState<number[]>([]);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -30,7 +31,8 @@ const Game = () => {
   }
 
   function nextStep(win: boolean) {
-    // setScore(prev => prev + songScore);
+    if (win) setScore(prev => prev + selectedCategory!.points);
+    setDoneCategories(prev => [...prev, selectedCategory!.points]);
     setLyricsSong(null);
     setSelectedCategory(null);
   }
@@ -42,13 +44,14 @@ const Game = () => {
   return (
     selectedCategory == null ?
     (
-      <div id="selection" className="flex flex-col space-y-4 w-full">
+      <div id="selection" className="flex flex-col items-center justify-center space-y-4 w-[50%] h-full">
         <div className="bg-blue-700 p-4 rounded-lg shadow-md border-2 border-white w-full">
           <p>Même chanson</p>
         </div>
         {game.categories.sort((a, b) => b.points - a.points).map((category, idx) => (
-          <CategoryCard key={idx} category={category} selected={false} onClick={() => setSelectedCategory(category)}/>
+          <CategoryCard key={idx} category={category} selected={doneCategories.includes(category.points)} onClick={() => setSelectedCategory(category)}/>
         ))}
+        <p>Score : {score}</p>
       </div>
     ) : 
     lyricsSong == null ? (

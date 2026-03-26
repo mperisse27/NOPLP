@@ -1,4 +1,3 @@
-import type { Key } from "react";
 import type { TimedLyrics } from "../types/gameTypes";
 
 function getMissingLyrics(baseLyrics: TimedLyrics[], missingNumber: number): TimedLyrics[] {

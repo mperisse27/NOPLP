@@ -6,6 +6,15 @@ DELETE FROM artists;
 
 -- Insertion des artistes avec UUID valides et aléatoires
 INSERT INTO artists (id, name) VALUES
+(gen_random_uuid(), 'Patrick Bruel'),
+(gen_random_uuid(), 'Noir Désir'),
+(gen_random_uuid(), 'Gérald De Palmas'),
+(gen_random_uuid(), 'Début de Soirée'),
+(gen_random_uuid(), 'Michel Delpech'),
+(gen_random_uuid(), 'Bigflo & Oli'),
+(gen_random_uuid(), 'Louise Attaque'),
+(gen_random_uuid(), 'Christophe Maé'),
+(gen_random_uuid(), 'Téléphone'),
 (gen_random_uuid(), 'Charles Aznavour'),
 (gen_random_uuid(), 'BB Brunes'),
 (gen_random_uuid(), 'Francis Cabrel'),
@@ -28,15 +37,37 @@ INSERT INTO artists (id, name) VALUES
 
 -- Insertion des thèmes avec UUID valides et aléatoires
 INSERT INTO themes (id, name) VALUES
+(gen_random_uuid(), 'Prénoms'),
+(gen_random_uuid(), 'Partir loin'),
 (gen_random_uuid(), 'On fait la java'),
 (gen_random_uuid(), 'En couleurs'),
 (gen_random_uuid(), 'Darons'),
 (gen_random_uuid(), 'On décolle'),
-(gen_random_uuid(), 'Piano'),
+(gen_random_uuid(), 'Avec le mot Piano'),
 (gen_random_uuid(), 'Guerres de voisinage');
 
 -- Insertion des chansons avec UUID valides et références aux artistes
 INSERT INTO songs (id, title, artist_id, year, meme_chanson) VALUES
+(gen_random_uuid(), 'Le Loir et Cher', (SELECT id FROM artists WHERE name = 'Michel Delpech'), 1979, true),
+(gen_random_uuid(), 'Nuit de folie', (SELECT id FROM artists WHERE name = 'Début de Soirée'), 1989, true),
+(gen_random_uuid(), 'Sur la route', (SELECT id FROM artists WHERE name = 'Gérald De Palmas'), 1994, true),
+(gen_random_uuid(), 'Une seule vie', (SELECT id FROM artists WHERE name = 'Gérald De Palmas'), 2000, true),
+(gen_random_uuid(), 'J''en rêve encore', (SELECT id FROM artists WHERE name = 'Gérald De Palmas'), 2000, true),
+(gen_random_uuid(), 'Elle habite ici', (SELECT id FROM artists WHERE name = 'Gérald De Palmas'), 2004, true),
+(gen_random_uuid(), 'Casser la voix', (SELECT id FROM artists WHERE name = 'Patrick Bruel'), 1989, true),
+(gen_random_uuid(), 'Qui a le droit', (SELECT id FROM artists WHERE name = 'Patrick Bruel'), 1991, true),
+(gen_random_uuid(), 'J''te l''dis quand même', (SELECT id FROM artists WHERE name = 'Patrick Bruel'), 1989, true),
+(gen_random_uuid(), 'Le vent nous portera', (SELECT id FROM artists WHERE name = 'Noir Désir'), 2001, true),
+(gen_random_uuid(), 'L''homme pressé', (SELECT id FROM artists WHERE name = 'Noir Désir'), 1996, true),
+(gen_random_uuid(), 'Demain', (SELECT id FROM artists WHERE name = 'Bigflo & Oli'), 2018, true),
+(gen_random_uuid(), 'Dommage', (SELECT id FROM artists WHERE name = 'Bigflo & Oli'), 2017, true),
+(gen_random_uuid(), 'Coup de vieux', (SELECT id FROM artists WHERE name = 'Bigflo & Oli'), 2022, true),
+(gen_random_uuid(), 'Léa', (SELECT id FROM artists WHERE name = 'Louise Attaque'), 1997, true),
+(gen_random_uuid(), 'J''t''emmène au vent', (SELECT id FROM artists WHERE name = 'Louise Attaque'), 1997, true),
+(gen_random_uuid(), 'Dingue, dingue, dingue', (SELECT id FROM artists WHERE name = 'Christophe Maé'), 2010, true),
+(gen_random_uuid(), 'Belle demoiselle', (SELECT id FROM artists WHERE name = 'Christophe Maé'), 2007, true),
+(gen_random_uuid(), 'Un autre monde', (SELECT id FROM artists WHERE name = 'Téléphone'), 1984, true),
+(gen_random_uuid(), 'Ça (c''est vraiment toi)', (SELECT id FROM artists WHERE name = 'Téléphone'), 1982, true),
 (gen_random_uuid(), 'La bohème', (SELECT id FROM artists WHERE name = 'Charles Aznavour'), 1965, true),
 (gen_random_uuid(), 'Emmenez-moi', (SELECT id FROM artists WHERE name = 'Charles Aznavour'), 1968, true),
 (gen_random_uuid(), 'Coups et blessures', (SELECT id FROM artists WHERE name = 'BB Brunes'), 2012, true),
@@ -73,16 +104,28 @@ INSERT INTO songs (id, title, artist_id, year, meme_chanson) VALUES
 
 -- Insertion des relations avec références aux IDs générés
 INSERT INTO songs_themes (song_id, theme_id) VALUES
+((SELECT id FROM songs WHERE title = 'Léa'), (SELECT id FROM themes WHERE name = 'Prénoms')),
+((SELECT id FROM songs WHERE title = 'Petite Marie'), (SELECT id FROM themes WHERE name = 'Prénoms')),
+
+((SELECT id FROM songs WHERE title = 'Je m''en vais'), (SELECT id FROM themes WHERE name = 'Partir loin')),
+((SELECT id FROM songs WHERE title = 'Emmenez-moi'), (SELECT id FROM themes WHERE name = 'Partir loin')),
+((SELECT id FROM songs WHERE title = 'J''t''emmène au vent'), (SELECT id FROM themes WHERE name = 'Partir loin')),
+
 ((SELECT id FROM songs WHERE title = 'Alors on danse'), (SELECT id FROM themes WHERE name = 'On fait la java')),
 ((SELECT id FROM songs WHERE title = 'La Java de Broadway'), (SELECT id FROM themes WHERE name = 'On fait la java')),
+
 ((SELECT id FROM songs WHERE title = 'Mon fils ma bataille'), (SELECT id FROM themes WHERE name = 'Darons')),
 ((SELECT id FROM songs WHERE title = 'Papaoutai'), (SELECT id FROM themes WHERE name = 'Darons')),
 ((SELECT id FROM songs WHERE title = 'Beau-papa'), (SELECT id FROM themes WHERE name = 'Darons')),
+
 ((SELECT id FROM songs WHERE title = 'Je vole'), (SELECT id FROM themes WHERE name = 'On décolle')),
 ((SELECT id FROM songs WHERE title = 'Envole-moi'), (SELECT id FROM themes WHERE name = 'On décolle')),
-((SELECT id FROM songs WHERE title = 'La groupie du pianiste'), (SELECT id FROM themes WHERE name = 'Piano')),
-((SELECT id FROM songs WHERE title = 'Il jouait du piano debout'), (SELECT id FROM themes WHERE name = 'Piano')),
+
+((SELECT id FROM songs WHERE title = 'La groupie du pianiste'), (SELECT id FROM themes WHERE name = 'Avec le mot Piano')),
+((SELECT id FROM songs WHERE title = 'Il jouait du piano debout'), (SELECT id FROM themes WHERE name = 'Avec le mot Piano')),
+
 ((SELECT id FROM songs WHERE title = 'Dans mon H.L.M.'), (SELECT id FROM themes WHERE name = 'Guerres de voisinage')),
 ((SELECT id FROM songs WHERE title = 'Les voisines'), (SELECT id FROM themes WHERE name = 'Guerres de voisinage')),
+
 ((SELECT id FROM songs WHERE title = 'Les mots bleus'), (SELECT id FROM themes WHERE name = 'En couleurs')),
 ((SELECT id FROM songs WHERE title = 'En rouge et noir'), (SELECT id FROM themes WHERE name = 'En couleurs'));

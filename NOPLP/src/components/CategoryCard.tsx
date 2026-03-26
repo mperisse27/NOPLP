@@ -8,19 +8,11 @@ interface CategoryCardProps {
 
 const CategoryCard = ({ category, selected, onClick }: CategoryCardProps) => {
   return (
-    <div className="flex space-x-1 cursor-pointer" onClick={onClick}>
-      <div key={category.name} className="bg-blue-700 p-4 rounded-lg shadow-md, border-2 border-white w-[80%]">
+    <div className={`flex space-x-1 ${selected ? '' : 'cursor-pointer'} w-full`} onClick={selected ? undefined : onClick}>
+      <div key={category.name} className={`${selected ? 'bg-[#202076] text-gray-200' : 'bg-blue-700 text-white'} p-4 rounded-lg shadow-md, border-2 border-white w-full`}>
         <h2>{category.name}</h2>
-        {
-          selected &&
-          <ul>
-            {category.songs.map((song, idx) => (
-              <li key={idx}>{song.title}</li>
-            ))}
-          </ul>
-        }
       </div>
-      <div className="bg-blue-700 p-4 rounded-lg shadow-md, border-2 border-white 2-[20%]">
+      <div className={`${selected ? 'bg-[#202076] text-gray-200' : 'bg-blue-700 text-white'} p-4 rounded-lg shadow-md border-2 border-white`}>
         {category.points}
       </div>
     </div>
