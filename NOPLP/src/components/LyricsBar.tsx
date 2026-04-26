@@ -27,7 +27,7 @@ const LyricsBar = ({ lyrics, song, nextStep }: LyricsBarProps) => {
     if (lyrics[currentLyricIndex + 1] && currentTime >= lyrics[currentLyricIndex + 1].time - 500 && missingLyricText == null) {
       setCurrentLyricIndex(prevIndex => prevIndex + 1);
       if (lyrics[currentLyricIndex + 1].missing != undefined) {
-        let words = lyrics[currentLyricIndex + 1].lyric.split(/[\s',;:!?.-]+/);
+        let words = lyrics[currentLyricIndex + 1].lyric.replaceAll(/[\s',;:!?.-]+/g, " ").trim().split(" ");
         words = words.slice(0, words.length - lyrics[currentLyricIndex + 1].missing!);
         setMissingLyricText(words.join(" "));
       }
@@ -41,9 +41,18 @@ const LyricsBar = ({ lyrics, song, nextStep }: LyricsBarProps) => {
     setGoodAnswer(goodAnswer);
   }
 
+  function leadWithZeros(num: number, size: number) {
+    let strNum = num.toString();
+    while (strNum.length < size) strNum = "0" + strNum;
+    return strNum;
+  }
+
   return (
     <>
-      <input type="range" min="0.5" max="2" step="0.01" defaultValue="1.1" className="w-full" onChange={(e) => setSpeed(parseFloat(e.target.value))}/>
+      <div className="flex">
+        <p>Vitesse : {speed.toFixed(2)}x</p>
+        <input type="range" min="0.5" max="2" step="0.01" defaultValue="1.1" className="w-full" onChange={(e) => setSpeed(parseFloat(e.target.value))}/>
+      </div>
       <p>{song.title} - {song.artistName}</p>
       {
         currentLyricIndex != -1 && lyrics[currentLyricIndex].missing != undefined ?
@@ -72,7 +81,7 @@ const LyricsBar = ({ lyrics, song, nextStep }: LyricsBarProps) => {
           <p>{currentLyricIndex == -1 || lyrics[currentLyricIndex].lyric.length == 0 ? "..." : lyrics[currentLyricIndex]?.lyric}</p>
         </div>
       }
-      <p>{currentTime} ms</p>
+      <p>{Math.floor(currentTime / 60000)}:{leadWithZeros(Math.floor((currentTime % 60000) / 1000), 2)}</p>
     </>
   );
 };
