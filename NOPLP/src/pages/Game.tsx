@@ -68,10 +68,6 @@ const Game = () => {
     ) : (
       <div id="selection" className="flex flex-col space-y-4 w-full">
         <LyricsBar lyrics={timedLyrics} song={lyricsSong} nextStep={nextStep}/>
-        {/* <iframe id="ytplayer" type="text/html" width="640" height="360"
-          src="https://www.youtube.com/embed/ZamLlPrINwI?autoplay=1"
-          frameborder="0">
-        </iframe> */}
       </div>
     )
 
