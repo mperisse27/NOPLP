@@ -1,57 +1,19 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import ApiService from './services/apiService.ts'
-import type { LrclibSong } from './types/LrclibSong.ts'
+import { Link } from 'react-router';
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [song, setSong] = useState<LrclibSong>();
-
-  const apiService = ApiService;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await apiService.getLyrics('Louane', 'Avenir');
-        setSong(data);
-      } catch (error) {
-        console.error('Error fetching lyrics:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <div>
-        {
-          song ? song!.syncedLyrics : "Attends stp"
-        }
-      </div>
-    </>
+    <div className="w-full">
+      <h2 className="mb-10">NOPLP - par Matteo Perisse</h2>
+      <h4>Ceci est un site d'entraînement pour le jeu N'oubliez pas les paroles</h4>
+      <h5>
+        Attention : ce site utilise des paroles issues de la base de données 
+        <a href="https://lrclib.net/" target="_blank" rel="noopener noreferrer"> https://lrclib.net/</a>.
+        <br/>
+        Les paroles peuvent ne pas être exactes ou les mêmes que dans l'émission. Pensez à vérifier si vous avez un doute.
+      </h5>
+      <Link to="/game"><button>Jouer</button></Link>
+    </div>
   )
 }
 
